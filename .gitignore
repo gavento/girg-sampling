@@ -1,0 +1,6 @@
+/.venv
+/.vscode
+/.idea
+/*.egg-info
+**/__pycache__
+
