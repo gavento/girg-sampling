@@ -1,0 +1,3 @@
+[submodule "girgs_cpplib"]
+	path = girgs_cpplib
+	url = git@github.com:chistopher/girgs.git
