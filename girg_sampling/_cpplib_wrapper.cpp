@@ -1,12 +1,18 @@
 #include <pybind11/pybind11.h>
-#include <hypergirgs/Generator.h>
+#include <pybind11/stl.h>
+#include <pybind11/functional.h>
+#include <girgs/Generator.h>
 
-int add(int i, int j) {
-    return i + j;
-}
+using namespace std;
+using namespace girgs;
 
-PYBIND11_MODULE(_cpplib_wrapper, m) {
-    m.doc() = "pybind11 example plugin"; // optional module docstring
+PYBIND11_MODULE(_cpplib_wrapper, m)
+{
+    m.doc() = "C++ wrapper of libgirgs";
 
-    m.def("add", &add, "A function which adds two numbers");
+    m.def("generateWeights", &generateWeights, "");
+    m.def("generatePositions", &generatePositions, "");
+    m.def("scaleWeights", &scaleWeights, "");
+    m.def("generateEdges", &generateEdges, "");
+    m.def("saveDot", &saveDot, "");
 }

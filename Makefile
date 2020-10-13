@@ -18,11 +18,12 @@ $(LIB_GIRGS):
 	cmake girgs_cpplib -B $(LIB_BUILD_DIR)
 	cmake --build $(LIB_BUILD_DIR)
 	cmake --install $(LIB_BUILD_DIR) --prefix $(LIB_TARGET_DIR)
-	cp $(LIB_TARGET_DIR)/lib/*.so girg_sampling/
+	cp -d $(LIB_TARGET_DIR)/lib/lib*.so* girg_sampling/
 
 $(LIB_WRAP): girg_sampling/_cpplib_wrapper.cpp $(LIB_GIRGS)
-	$(CC) -fPIC -Wall -shared -g -o $@ $< -lstdc++ \
-		-I$(PYBIND11_INCLUDE) -I$(LIB_TARGET_DIR)/include/ -I$(PYTHON_INCLUDE)
+	$(CC) -fPIC -Wall -shared -g -o $@ $< \
+		-I$(PYBIND11_INCLUDE) -I$(LIB_TARGET_DIR)/include/ -I$(PYTHON_INCLUDE) \
+		-lstdc++ $(LIB_GIRGS) -Wl,-rpath=.
 
 build: $(LIB_WRAP)
 #	poetry build
