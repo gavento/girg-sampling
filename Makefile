@@ -6,7 +6,7 @@ LIB_WRAP=girg_sampling/_cpplib_wrapper.so
 PYBIND11_INCLUDE=$(shell poetry run python -c "import pybind11; print(pybind11.get_include())")
 PYTHON_INCLUDE=$(shell poetry run python -c "from sysconfig import get_paths; print(get_paths()['include'])")
 
-.PHONY: all clean build
+.PHONY: all clean build submodules
 
 all: build
 
@@ -14,7 +14,7 @@ clean:
 	rm -rf dist/ build/ $(LIB_BUILD_DIR) $(LIB_TARGET_DIR) girg_sampling/*.so
 	rm -rf girg_sampling.egg-info/ __pycache__/
 
-$(LIB_GIRGS):
+$(LIB_GIRGS): submodules
 	cmake girgs_cpplib -B $(LIB_BUILD_DIR)
 	cmake --build $(LIB_BUILD_DIR)
 	cmake --install $(LIB_BUILD_DIR) --prefix $(LIB_TARGET_DIR)
@@ -25,8 +25,11 @@ $(LIB_WRAP): girg_sampling/_cpplib_wrapper.cpp $(LIB_GIRGS)
 		-I$(PYBIND11_INCLUDE) -I$(LIB_TARGET_DIR)/include/ -I$(PYTHON_INCLUDE) \
 		-lstdc++ $(LIB_GIRGS) -Wl,-rpath=.
 
-build: $(LIB_WRAP)
-#	poetry build
+build: submodules $(LIB_WRAP)
+
+submodules:
+	git submodule init
+	git submodule update -N
 
 test:
 	poetry install
