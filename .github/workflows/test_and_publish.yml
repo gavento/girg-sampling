@@ -23,9 +23,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .env
-            .poetry
-            .cache/pre-commit
+            ~/.env
+            ~/.poetry
+            ~/.cache/pre-commit
           key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
       - name: Install and configure poetry
         run: |
@@ -54,19 +54,23 @@ jobs:
           source $HOME/.poetry/env
           poetry run pytest
 
-      - name: Publish with poetry to TestPyPI
+      - name: Publish with twine to TestPyPI
         if: ${{ github.event_name == 'release' }}
         env:
-          POETRY_PYPI_TOKEN_TESTPYPI: ${{secrets.TESTPYPI_TOKEN}}
+          #POETRY_PYPI_TOKEN_TESTPYPI: ${{secrets.TESTPYPI_TOKEN}}
+          TWINE_PASSWORD: ${{secrets.TESTPYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
-          poetry publish -r testpypi
+          poetry run twine upload -u __token__ dist/*.whl
+          poetry run twine upload -u __token__ dist/*.tar.gz --skip-existing
 
-      - name: Publish with poetry to PyPI
+      - name: Publish with twine to PyPI
         if: ${{ github.event_name == 'release' }}
         # Note: && github.event.action == 'published' }}
         env:
-          POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_TOKEN}}
+          #POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_TOKEN}}
+          TWINE_PASSWORD: ${{secrets.TESTPYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
-          poetry publish
+          poetry run twine upload -u __token__ dist/*.whl
+          poetry run twine upload -u __token__ dist/*.tar.gz --skip-existing
