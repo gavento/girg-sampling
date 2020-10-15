@@ -3,7 +3,7 @@ name: Build and test package
 on:
   push:
   release:
-    types: [created, published]
+    types: [published]
 
 jobs:
   lint_build_test:
@@ -55,19 +55,18 @@ jobs:
           poetry run pytest
 
       - name: Publish with poetry to TestPyPI
-        if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+        if: ${{ github.event_name == 'release' }}
         env:
-          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secrets.PYPI_USERNAME}}
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secrets.PYPI_PASSWORD}}
+          POETRY_PYPI_TOKEN_TESTPYPI: ${{secrets.TESTPYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
           poetry publish -r testpypi
 
       - name: Publish with poetry to PyPI
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ github.event_name == 'release' }}
+        # Note: && github.event.action == 'published' }}
         env:
-          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secrets.PYPI_USERNAME}}
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secrets.PYPI_PASSWORD}}
+          POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
-          poetry publish -r pypi
+          poetry publish
