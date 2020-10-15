@@ -27,7 +27,7 @@ $(LIB_GIRGS) $(LIB_HYPERGIRGS): submodules
 $(LIB_WRAP): girg_sampling/_cpplib_wrapper.cpp $(LIB_GIRGS)
 	$(CC) -fPIC -Wall -shared -g -o $@ $< \
 		-I$(PYBIND11_INCLUDE) -I$(LIB_TARGET_DIR)/include/ -I$(PYTHON_INCLUDE) \
-		-lstdc++ $(LIB_GIRGS) -Wl,-rpath=.
+		-lstdc++ $(LIB_GIRGS) $(LIB_HYPERGIRGS) -Wl,-rpath=.
 
 build: submodules $(LIB_WRAP)
 
