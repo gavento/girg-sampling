@@ -6,7 +6,7 @@ LIB_WRAP=girg_sampling/_cpplib_wrapper.so
 PYBIND11_INCLUDE=$(shell poetry run python -c "import pybind11; print(pybind11.get_include())")
 PYTHON_INCLUDE=$(shell poetry run python -c "from sysconfig import get_paths; print(get_paths()['include'])")
 
-.PHONY: all clean build submodules
+.PHONY: all clean build submodules test
 
 all: build
 
@@ -29,7 +29,7 @@ build: submodules $(LIB_WRAP)
 
 submodules:
 	git submodule init
-	git submodule update -N
+	git submodule update
 
 test:
 	poetry install

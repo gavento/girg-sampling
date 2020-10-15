@@ -16,8 +16,8 @@ ext_modules = [
 """
 
 
-def build(setup_kwargs):
-    print("Heelo world!")
+def build():
+    print("Running build.py ...")
 
     #    setup_kwargs["ext_module_hint"] = r"pybind11_add_module"
     #    setup_kwargs["src_dir"] = "girgs_cpplib"
@@ -37,8 +37,8 @@ def build(setup_kwargs):
     # }
     # setup_kwargs["ext_modules"] += ext_modules
 
-    return setup_kwargs
+    # return setup_kwargs
 
 
 if __name__ == "__main__":
-    build({})
+    build()

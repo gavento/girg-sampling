@@ -3,27 +3,12 @@ name: Build and test package
 on: [push]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-      - name: Linting
-        run: |
-          pip install pre-commit
-          pre-commit run --all-files
-
-  test:
-    needs: lint
-    name: Build and test on ${{ matrix.python-version }}
+  lint_build_test:
+    name: Lint, build and test on ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
@@ -37,8 +22,9 @@ jobs:
           path: |
             .env
             .poetry
+            .cache/pre-commit
           key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-      - name: Install poetry
+      - name: Install and configure poetry
         run: |
           python get-poetry.py -y
           source $HOME/.poetry/env
@@ -48,11 +34,18 @@ jobs:
           poetry -V
       - name: Install dependencies
         run: |
+          source $HOME/.poetry/env
           poetry install --no-root
+      - name: Lint with pre-commit
+        run: |
+          source $HOME/.poetry/env
+          poetry run pre-commit run --all-files
       - name: Build and install the library
         run: |
+          source $HOME/.poetry/env
           poetry build
-          poetry install
+          poetry run pip install dist/girg_sampling-*.whl
       - name: Test with pytest
         run: |
-          pytest
+          source $HOME/.poetry/env
+          poetry run pytest
