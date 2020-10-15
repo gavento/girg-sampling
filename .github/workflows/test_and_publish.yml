@@ -57,8 +57,8 @@ jobs:
       - name: Publish with poetry to TestPyPI
         if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
         env:
-          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secret.PYPI_USERNAME}}
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secret.PYPI_PASSWORD}}
+          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secrets.PYPI_USERNAME}}
+          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secrets.PYPI_PASSWORD}}
         run: |
           source $HOME/.poetry/env
           poetry publish -r testpypi
@@ -66,8 +66,8 @@ jobs:
       - name: Publish with poetry to PyPI
         if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
         env:
-          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secret.PYPI_USERNAME}}
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secret.PYPI_PASSWORD}}
+          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secrets.PYPI_USERNAME}}
+          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secrets.PYPI_PASSWORD}}
         run: |
           source $HOME/.poetry/env
           poetry publish -r pypi
