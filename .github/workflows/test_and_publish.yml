@@ -2,6 +2,7 @@ name: Build and test package
 
 on:
   push:
+    branches: ["*"] # Do not run for tags pushed
   release:
     types: [published]
 
@@ -61,16 +62,16 @@ jobs:
           TWINE_PASSWORD: ${{secrets.TESTPYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
-          poetry run twine upload -u __token__ dist/*.whl
-          poetry run twine upload -u __token__ dist/*.tar.gz --skip-existing
+          poetry run twine upload -u __token__ --repository-url https://test.pypi.org/legacy/ --verbose --skip-existing dist/*.whl
+          poetry run twine upload -u __token__ --repository-url https://test.pypi.org/legacy/ --verbose --skip-existing dist/*.tar.gz
 
       - name: Publish with twine to PyPI
         if: ${{ github.event_name == 'release' }}
         # Note: && github.event.action == 'published' }}
         env:
           #POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_TOKEN}}
-          TWINE_PASSWORD: ${{secrets.TESTPYPI_TOKEN}}
+          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env
-          poetry run twine upload -u __token__ dist/*.whl
-          poetry run twine upload -u __token__ dist/*.tar.gz --skip-existing
+          poetry run twine upload -u __token__ --verbose --skip-existing dist/*.whl
+          poetry run twine upload -u __token__ --verbose --skip-existing dist/*.tar.gz
