@@ -1,6 +1,9 @@
 name: Build and test package
 
-on: [push]
+on:
+  push:
+  release:
+    types: [created, published]
 
 jobs:
   lint_build_test:
@@ -31,6 +34,7 @@ jobs:
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
           poetry config cache-dir ~/.poetry/cache
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
           poetry -V
       - name: Install dependencies
         run: |
@@ -49,3 +53,21 @@ jobs:
         run: |
           source $HOME/.poetry/env
           poetry run pytest
+
+      - name: Publish with poetry to TestPyPI
+        if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+        env:
+          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secret.PYPI_USERNAME}}
+          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secret.PYPI_PASSWORD}}
+        run: |
+          source $HOME/.poetry/env
+          poetry publish -r testpypi
+
+      - name: Publish with poetry to PyPI
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        env:
+          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{secret.PYPI_USERNAME}}
+          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{secret.PYPI_PASSWORD}}
+        run: |
+          source $HOME/.poetry/env
+          poetry publish -r pypi
