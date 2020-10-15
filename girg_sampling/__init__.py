@@ -1,12 +1,12 @@
 import os
-from typing import List
+from typing import List, Tuple
 import random
 
 
 _prev_cwd = os.getcwd()
 try:
     os.chdir(__path__[0])
-    import _cpplib_wrapper
+    from . import _cpplib_wrapper
 except ImportError as e:
     raise ImportError("Error importing girgs CPP library wrapper.") from e
 finally:
@@ -51,7 +51,7 @@ def generateEdges(
     positions: List[List[float]],
     alpha: float,
     samplingSeed: int = None,
-) -> List[(int, int)]:
+) -> List[Tuple[int, int]]:
     if samplingSeed is None:
         samplingSeed = random.randint(0, (1 << 31) - 1)
     return _cpplib_wrapper.generateEdges(weights, positions, alpha, samplingSeed)
