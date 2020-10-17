@@ -15,7 +15,7 @@ include = [
     {path = "girgs_cpplib/**", format = "sdist"},
     {path = "Makefile", format = "sdist"},
     {path = "poetry.lock", format = "sdist"},
-    {path = "girg_sampling/_cpplib_wrapper.so", format = "wheel"},
+    {path = "girg_sampling/_*_wrapper.so", format = "wheel"},
     {path = "girg_sampling/lib*girgs.so.1", format = "wheel"},
 ]
 

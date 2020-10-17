@@ -6,5 +6,5 @@
 /dist
 /build
 /girg_sampling/lib*.so*
-/girg_sampling/_cpplib_wrapper.so
+/girg_sampling/*.so
 /.pytest_cache
