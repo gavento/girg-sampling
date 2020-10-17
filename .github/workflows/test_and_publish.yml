@@ -24,7 +24,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.env
             ~/.poetry
             ~/.cache/pre-commit
           key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
@@ -33,7 +32,8 @@ jobs:
           python get-poetry.py -y
           source $HOME/.poetry/env
           poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
+          poetry config virtualenvs.in-project false
+          poetry config virtualenvs.path ~/.poetry/virtualenvs
           poetry config cache-dir ~/.poetry/cache
           poetry config repositories.testpypi https://test.pypi.org/legacy/
           poetry -V

@@ -17,7 +17,7 @@ clean:
 	rm -rf girg_sampling/*.so girg_sampling/*.so.*
 	rm -rf girg_sampling.egg-info/ __pycache__/
 
-$(LIB_GIRGS) $(LIB_HYPERGIRGS): submodules
+$(LIB_GIRGS) $(LIB_HYPERGIRGS):
 	cmake girgs_cpplib -B $(LIB_BUILD_DIR)
 	cmake --build $(LIB_BUILD_DIR)
 	cmake --install $(LIB_BUILD_DIR) --prefix $(LIB_TARGET_DIR)
