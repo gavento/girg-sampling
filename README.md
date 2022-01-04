@@ -11,3 +11,4 @@ To build locally, install Poetry package manager and run `poetry install`.
 
 * 0.1.0: A direct wrapper of the C++ graph generator functions.
 * 0.2.0: Minor fixes, unify `seed` param, add e2e tests, build wheels for python up to 3.10
+* 0.2.1: Update urllib3 dev-dependency for twine under Python 3.10
