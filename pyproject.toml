@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "girg-sampling"
-version = "0.1.1"
+version = "0.2.0"
 description = "Efficient sampling of Geometric Inhomogeneous Random Graphs (GIRG). W wrapper for C++ libgirg and libhypergirg."
 authors = ["Tomas Gavenciak <gavento@gmail.com>"]
 readme = "README.md"
