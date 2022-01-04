@@ -21,21 +21,21 @@ def calculateRadiusLikeNetworKit(n: int, alpha: float, T: float, deg: float) -> 
 
 
 def sampleRadii(
-    n: int, alpha: float, R: float, seed: int = None, parallel: bool = True
+    n: int, alpha: float, R: float, *, seed: int = None, parallel: bool = True
 ) -> List[float]:
     if seed is None:
         seed = random.randint(0, (1 << 31) - 1)
     return _libhypergirgs_wrapper.sampleRadii(n, alpha, R, seed, parallel)
 
 
-def sampleAngles(n: int, seed: int = None, parallel: bool = True) -> List[float]:
+def sampleAngles(n: int, *, seed: int = None, parallel: bool = True) -> List[float]:
     if seed is None:
         seed = random.randint(0, (1 << 31) - 1)
     return _libhypergirgs_wrapper.sampleAngles(n, seed, parallel)
 
 
 def sampleRadiiAndAngles(
-    n: int, alpha: float, R: float, seed: int = None, parallel: bool = True
+    n: int, alpha: float, R: float, *, seed: int = None, parallel: bool = True
 ) -> Tuple[List[float], List[float]]:
     if seed is None:
         seed = random.randint(0, (1 << 31) - 1)
@@ -47,6 +47,7 @@ def generateEdges(
     angles: List[float],
     T: float,
     R: float,
+    *,
     seed: int = None,
 ) -> List[Tuple[int, int]]:
     if seed is None:

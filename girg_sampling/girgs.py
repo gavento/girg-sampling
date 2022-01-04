@@ -13,19 +13,19 @@ finally:
 
 
 def generateWeights(
-    n: int, ple: float, weightSeed: int = None, parallel: bool = True
+    n: int, ple: float, *, seed: int = None, parallel: bool = True
 ) -> List[float]:
-    if weightSeed is None:
-        weightSeed = random.randint(0, (1 << 31) - 1)
-    return _libgirgs_wrapper.generateWeights(n, ple, weightSeed, parallel)
+    if seed is None:
+        seed = random.randint(0, (1 << 31) - 1)
+    return _libgirgs_wrapper.generateWeights(n, ple, seed, parallel)
 
 
 def generatePositions(
-    n: int, dimension: int, positionSeed: int = None, parallel: bool = True
+    n: int, dimension: int, *, seed: int = None, parallel: bool = True
 ) -> List[List[float]]:
-    if positionSeed is None:
-        positionSeed = random.randint(0, (1 << 31) - 1)
-    return _libgirgs_wrapper.generatePositions(n, dimension, positionSeed, parallel)
+    if seed is None:
+        seed = random.randint(0, (1 << 31) - 1)
+    return _libgirgs_wrapper.generatePositions(n, dimension, seed, parallel)
 
 
 def scaleWeights(
@@ -38,11 +38,12 @@ def generateEdges(
     weights: List[float],
     positions: List[List[float]],
     alpha: float,
-    samplingSeed: int = None,
+    *,
+    seed: int = None,
 ) -> List[Tuple[int, int]]:
-    if samplingSeed is None:
-        samplingSeed = random.randint(0, (1 << 31) - 1)
-    return _libgirgs_wrapper.G_generateEdges(weights, positions, alpha, samplingSeed)
+    if seed is None:
+        seed = random.randint(0, (1 << 31) - 1)
+    return _libgirgs_wrapper.generateEdges(weights, positions, alpha, seed)
 
 
 del _prev_cwd, os, List, Tuple
