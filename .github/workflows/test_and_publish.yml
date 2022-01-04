@@ -26,11 +26,10 @@ jobs:
           path: |
             ~/.poetry
             ~/.cache/pre-commit
-          key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: env-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
       - name: Install and configure poetry
         run: |
-          python get-poetry.py -y
-          source $HOME/.poetry/env
+          python install-poetry.py -y
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project false
           poetry config virtualenvs.path ~/.poetry/virtualenvs
@@ -39,20 +38,16 @@ jobs:
           poetry -V
       - name: Install dependencies
         run: |
-          source $HOME/.poetry/env
           poetry install --no-root
       - name: Lint with pre-commit
         run: |
-          source $HOME/.poetry/env
           poetry run pre-commit run --all-files
       - name: Build and install the library
         run: |
-          source $HOME/.poetry/env
           poetry build
           poetry run pip install dist/girg_sampling-*.whl
       - name: Test with pytest
         run: |
-          source $HOME/.poetry/env
           poetry run pytest
 
       - name: Publish with twine to TestPyPI
@@ -61,7 +56,6 @@ jobs:
           #POETRY_PYPI_TOKEN_TESTPYPI: ${{secrets.TESTPYPI_TOKEN}}
           TWINE_PASSWORD: ${{secrets.TESTPYPI_TOKEN}}
         run: |
-          source $HOME/.poetry/env
           poetry run twine upload -u __token__ --repository-url https://test.pypi.org/legacy/ --verbose --skip-existing dist/*.whl
           poetry run twine upload -u __token__ --repository-url https://test.pypi.org/legacy/ --verbose --skip-existing dist/*.tar.gz
 
@@ -72,6 +66,5 @@ jobs:
           #POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_TOKEN}}
           TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
         run: |
-          source $HOME/.poetry/env
           poetry run twine upload -u __token__ --verbose --skip-existing dist/*.whl
           poetry run twine upload -u __token__ --verbose --skip-existing dist/*.tar.gz
