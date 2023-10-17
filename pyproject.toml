@@ -28,7 +28,6 @@ python = ">=3.8,<4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.1"
-black = "^20.8b1"
 pre-commit = "^2.7.1"
 cmaketools = "^0.1.6"
 pip = "^21.3"
@@ -36,9 +35,10 @@ pybind11 = "^2.9"
 cmake = "^3.22"
 twine = "^3.7"
 urllib3 = "^1.26"
+networkx = "^3.1"
 
 [tool.poetry.group.dev.dependencies]
-networkx = "^3.1"
+black = "^23.10.0"
 
 [build-system]
 requires = ["poetry>=1.0"]
