@@ -24,7 +24,7 @@ generate-setup-file = false
 script = "build.py"
 
 [tool.poetry.dependencies]
-python = ">=3.6.1,<4"
+python = ">=3.8,<4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.1"
@@ -36,6 +36,9 @@ pybind11 = "^2.9"
 cmake = "^3.22"
 twine = "^3.7"
 urllib3 = "^1.26"
+
+[tool.poetry.group.dev.dependencies]
+networkx = "^3.1"
 
 [build-system]
 requires = ["poetry>=1.0"]
