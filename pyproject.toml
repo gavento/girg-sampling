@@ -1,22 +1,22 @@
 [tool.poetry]
-name = "girg-sampling"
-version = "0.3.0"
-description = "Efficient sampling of Geometric Inhomogeneous Random Graphs (GIRG). Wrapper for C++ libraries libgirg and libhypergirg."
 authors = ["Tomas Gavenciak <gavento@gmail.com>"]
+description = "Efficient sampling of Geometric Inhomogeneous Random Graphs (GIRG). Wrapper for C++ libraries libgirg and libhypergirg."
+homepage = "https://github.com/gavento/girg-sampling"
+name = "girg-sampling"
 readme = "README.md"
 repository = "https://github.com/gavento/girg-sampling"
-homepage = "https://github.com/gavento/girg-sampling"
+version = "0.3.0"
 
 packages = [
-    { include = "girg_sampling" },
+  {include = "girg_sampling"},
 ]
 
 include = [
-    {path = "girgs_cpplib/**", format = "sdist"},
-    {path = "Makefile", format = "sdist"},
-    {path = "poetry.lock", format = "sdist"},
-    {path = "girg_sampling/_*_wrapper.so", format = "wheel"},
-    {path = "girg_sampling/lib*girgs.so.1", format = "wheel"},
+  {path = "girgs_cpplib/**", format = "sdist"},
+  {path = "Makefile", format = "sdist"},
+  {path = "poetry.lock", format = "sdist"},
+  {path = "girg_sampling/_*_wrapper.so", format = "wheel"},
+  {path = "girg_sampling/lib*girgs.so.1", format = "wheel"},
 ]
 
 [tool.poetry.build]
@@ -27,17 +27,17 @@ script = "build.py"
 python = ">=3.8,<4"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.1.1"
-pre-commit = "^2.7.1"
-cmaketools = "^0.1.6"
-pip = "^21.3"
-pybind11 = "^2.9"
+black = "^23.10.0"
 cmake = "^3.22"
+cmaketools = "^0.1.6"
+networkx = "^3.1"
+pip = "^23.3"
+pre-commit = "^2.7.1"
+pybind11 = "^2.9"
+pytest = "^6.1.1"
 twine = "^3.7"
 urllib3 = "^1.26"
-networkx = "^3.1"
-black = "^23.10.0"
 
 [build-system]
-requires = ["poetry>=1.0"]
 build-backend = "poetry.masonry.api"
+requires = ["poetry>=1.0"]
