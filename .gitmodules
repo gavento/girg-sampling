@@ -1,4 +1,4 @@
 [submodule "girgs_cpplib"]
 	path = girgs_cpplib
 	url = https://github.com/chistopher/girgs
-	branch = v1.0
+	branch = master
