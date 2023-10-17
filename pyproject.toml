@@ -36,8 +36,6 @@ cmake = "^3.22"
 twine = "^3.7"
 urllib3 = "^1.26"
 networkx = "^3.1"
-
-[tool.poetry.group.dev.dependencies]
 black = "^23.10.0"
 
 [build-system]
